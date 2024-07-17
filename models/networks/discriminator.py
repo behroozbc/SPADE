@@ -81,7 +81,8 @@ class NLayerDiscriminator(BaseNetwork):
         input_nc = self.compute_D_input_nc(opt)
 
         norm_layer = get_nonspade_norm_layer(opt, opt.norm_D)
-        sequence = [[nn.Conv2d(input_nc, nf, kernel_size=kw, stride=2, padding=padw),
+        #what happend Idk
+        sequence = [[nn.Conv2d(7, nf, kernel_size=kw, stride=2, padding=padw),
                      nn.LeakyReLU(0.2, False)]]
 
         for n in range(1, opt.n_layers_D):
@@ -100,9 +101,10 @@ class NLayerDiscriminator(BaseNetwork):
             self.add_module('model' + str(n), nn.Sequential(*sequence[n]))
 
     def compute_D_input_nc(self, opt):
-        input_nc = opt.label_nc + opt.output_nc
-        if opt.contain_dontcare_label:
-            input_nc += 1
+
+        input_nc = opt.input_nc * 2
+
+        
         if not opt.no_instance:
             input_nc += 1
         return input_nc
