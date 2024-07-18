@@ -107,8 +107,8 @@ class Pix2PixModel(torch.nn.Module):
 
     def preprocess_input(self, data):
         # move to GPU and change data types
-        cameraImages= data['camera']
-        weatherImages=data['weather']
+        cameraImages= data['camera'].cuda()
+        weatherImages=data['weather'].cuda()
         cdd=torch.cat((cameraImages,weatherImages),dim=1)
         return cdd ,data['cp'].cuda()
 
